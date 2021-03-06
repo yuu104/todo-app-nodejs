@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ToDoリスト</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="todo_box">
+    <h1>ToDoリスト</h1>
+    <form action="/create" id="todo_form" name="todo_form" method="POST">
+      <input type="text" id="add" name="taskName" style="width: 100%;" placeholder="タスクを入力し、Enterキーを押して保存してください">
+    </form>
+    <div class="tasks">
+      <p class="task_title title">タスク</p>
+      <ul id="task_ul" class="todo_ul">
+        <% doItems.forEach(item => { %>
+            <li>
+              <form action="/comped/<%= item.task %>/<%= item.id %>" method="post" name="comped" class="checkbox_container">
+                <a href="#" onclick="this.parentNode.submit()" class="checkbox"></a>
+              </form>
+              <div>
+                <span><%= item.task %></span>
+                <form action="/delete/<%= item.id %>" method="POST">
+                  <a href="#" onclick="this.parentNode.submit()" class="delete_btn">削除</a>
+                </form>
+              </div>
+            </li>
+        <% }); %>
+      </ul>
+      
+    </div>
+    <div class="comps">
+      <p class="comp_title title">完了</p>
+      <ul id="comp_ul" class="todo_ul">
+        <% compedItems.forEach(item=> { %>
+          <li>
+            <form action="/reCreate/<%= item.task %>/<%= item.id %>" method="POST" name="reCreate" class="checkbox_container checked_container">
+              <a href="#" onclick="this.parentNode.submit()" class="checkbox checked"></a>
+            </form>
+            <div>
+              <span class="comped_task_name">
+                <%= item.task %>
+              </span>
+            </div>
+          </li>
+          <% }); %>
+      </ul>
+    </div>
+  </div>
+
+
+  <script src="/js/main.js"></script>
+</body>
+</html>
